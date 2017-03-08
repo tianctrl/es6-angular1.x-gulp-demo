@@ -1,0 +1,25 @@
+{
+  "name": "angular-test",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-animate": "^1.6.2",
+    "angular-aria": "^1.6.2",
+    "angular-material": "^1.1.3",
+    "angular-messages": "^1.6.2",
+    "angular-ui-router": "^0.4.2",
+    "angular-resource": "^1.6.2",
+    "angular-sanitize": "^1.6.2",
+    "bootstrap": "^3.3.7"
+  }
+}

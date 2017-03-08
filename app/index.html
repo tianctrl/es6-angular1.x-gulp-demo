@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="horTest">
+<head>
+	<meta charset="UTF-8">
+	<title>angular test</title>
+	<meta name="viewport" content="width=device-width">
+	<!-- bower:css -->
+	<!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
+	<!-- endbower -->
+
+	<!-- inject:css -->
+	<!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
+	<!-- endinject -->
+</head>
+<body>
+	<!--[if lt IE 10]>
+      	<p class="">请不要使用IE浏览器访问HOR应用</p>
+    <![endif]-->
+
+	<ul class="nav nav-pills">
+	  	<li role="presentation" class="active"><a ng-href="home">Home</a></li>
+	 	<li role="presentation"><a ng-href="profile">Profile</a></li>
+	  	<li role="presentation"><a href="#">Messages</a></li>
+	</ul>
+	<ui-view></ui-view>
+	
+	<!-- bower:js -->
+	<!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
+	<!-- endbower -->
+
+	<!-- inject:js -->
+	<!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
+	<!-- endinject -->
+
+</body>
+</html>

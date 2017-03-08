@@ -1,0 +1,77 @@
+import gulp from 'gulp';
+import path from 'path';
+import webpackStream from 'webpack-stream';
+import gulpInject from 'gulp-inject';
+import gulpHtmlmin from 'gulp-htmlmin';
+import named from 'vinyl-named';
+import wiredep from 'wiredep';
+import broswerSync from 'browser-sync';
+import browserSyncSpa from 'browser-sync-spa';
+
+import webpackConfig from './webpack.config';
+
+const broswerSyncInstance = broswerSync.create();
+
+/*
+ * 编译所有js代码, 输入主模块, 使用webpackStream插件, babel-loader, 打包es6 输出到dist文件夹
+ * webpackConfig 为 webpack配置文件
+ * named 插件用于保持文件名, 这里可省略
+ */
+gulp.task('script', compileScripts);
+
+/*
+ * 给index.html文件插入所需要的css, js文件
+ * 使用gulp-inject插件引入自定义的css, js
+ * 使用wiredep 引入bower所管理的依赖
+ * 此命令依赖于'script'命令
+ */
+gulp.task('index', ['script'], createIndexFile);
+
+/*
+ * 此命令在这里只是把html文件复制到dist目录
+ * 这里可使用gulp-htmlmin插件压缩html后, 再写入dist目录
+ */
+gulp.task('htmlTemplate', htmlTemplate);
+
+/*
+ * 建立httpserver为项目根目录, localhost可访问
+ */
+gulp.task('serve', ['index', 'htmlTemplate'], serve);
+
+function compileScripts() {
+	return gulp.src('./app/index_module.js')
+		// .pipe(named())
+		.pipe(webpackStream(webpackConfig))
+		.pipe(gulp.dest('./dist/'));
+}
+
+function createIndexFile() {
+	let injectScripts = gulp.src('./dist/**/*.js', {read: false});
+
+	let wiredepOptions = {
+	};
+
+	return gulp.src('./app/index.html')
+		.pipe(gulpInject(injectScripts))
+		.pipe(wiredep.stream(wiredepOptions))
+		.pipe(gulp.dest('./dist/'));
+}
+
+function htmlTemplate() {
+	return gulp.src('./app/**/!(index).html')
+		.pipe(gulp.dest('./dist/'));
+}
+
+function serve() {
+
+	let config = {
+		browser: [],
+		server: {
+			baseDir: './'
+		},
+		startPath: '/',
+		notify: false
+	};
+
+	broswerSyncInstance.init(config);
+}

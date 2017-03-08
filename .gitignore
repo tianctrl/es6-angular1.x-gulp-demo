@@ -1,0 +1,9 @@
+## 忽略npm bower 依赖包文件夹
+node_modules/
+bower_components/
+
+## 忽略build生产的文件夹
+dist/
+
+## IDE生产的文件夹
+.idea/
