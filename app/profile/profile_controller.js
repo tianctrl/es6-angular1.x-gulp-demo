@@ -1,9 +1,9 @@
 export class ProfileController {
-	constructor() {
-		this.name = 'profile page';
-	}
+    constructor() {
+        this.name = 'profile page';
+    }
 
-	test() {
-		console.log('print test');
-	}
+    test() {
+        console.log('print test');
+    }
 }

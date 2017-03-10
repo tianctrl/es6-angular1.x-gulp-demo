@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html ng-app="horTest">
 <head>
-	<meta charset="UTF-8">
-	<title>angular test</title>
-	<meta name="viewport" content="width=device-width">
-	<!-- bower:css -->
-	<!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
-	<!-- endbower -->
+    <meta charset="UTF-8">
+    <title>angular test</title>
+    <meta name="viewport" content="width=device-width">
+    <!-- bower:css -->
+    <!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
+    <!-- endbower -->
 
-	<!-- inject:css -->
-	<!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
-	<!-- endinject -->
+    <!-- inject:css -->
+    <!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
+    <!-- endinject -->
 </head>
 <body>
-	<!--[if lt IE 10]>
-      	<p class="">请不要使用IE浏览器访问HOR应用</p>
+    <!--[if lt IE 10]>
+        <p class="">请不要使用IE浏览器访问HOR应用</p>
     <![endif]-->
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="page-header">
+                    <h1>A demo for learning es6 angular <small>Private use</small></h1>
+                </div>
+            </div>
+            <div class="col-lg-8 col-lg-offset-2">
+                <ul class="nav nav-pills">
+                    <li class="active"><a ui-sref="home">Home</a></li>
+                    <li><a ui-sref="profile">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <ui-view></ui-view>
+    
+    <!-- bower:js -->
+    <!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
+    <!-- endbower -->
 
-	<ul class="nav nav-pills">
-	  	<li class="active"><a ui-sref="home">Home</a></li>
-	 	<li><a ui-sref="profile">Profile</a></li>
-	</ul>
-	<ui-view></ui-view>
-	
-	<!-- bower:js -->
-	<!-- 这里使用wiredep插件 插入bower.json里依赖的项目 -->
-	<!-- endbower -->
-
-	<!-- inject:js -->
-	<!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
-	<!-- endinject -->
+    <!-- inject:js -->
+    <!-- 这里使用gulp-inject 插入配置文件里自定义需要插入的css文件 -->
+    <!-- endinject -->
 
 </body>
 </html>

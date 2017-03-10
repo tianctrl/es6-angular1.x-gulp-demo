@@ -36,42 +36,51 @@ gulp.task('htmlTemplate', htmlTemplate);
 /*
  * 建立httpserver为项目根目录, localhost可访问
  */
-gulp.task('serve', ['index', 'htmlTemplate'], serve);
+gulp.task('serve', serve);
+
+/*
+ * 开始项目
+ */
+gulp.task('start', ['index', 'htmlTemplate', 'serve']);
 
 function compileScripts() {
-	return gulp.src('./app/index_module.js')
-		// .pipe(named())
-		.pipe(webpackStream(webpackConfig))
-		.pipe(gulp.dest('./dist/'));
+    return gulp.src('./app/index_module.js')
+        // .pipe(named())
+        .pipe(webpackStream(webpackConfig))
+        .pipe(gulp.dest('./dist/'));
 }
 
 function createIndexFile() {
-	let injectScripts = gulp.src('./dist/**/*.js', {read: false});
+    let injectScripts = gulp.src('./dist/**/*.js', {read: false});
 
-	let wiredepOptions = {
-	};
+    let injectOptions = { // 使用相对路径
+        relative: true
+    };
 
-	return gulp.src('./app/index.html')
-		.pipe(gulpInject(injectScripts))
-		.pipe(wiredep.stream(wiredepOptions))
-		.pipe(gulp.dest('./dist/'));
+    let wiredepOptions = { // 不插入jquery
+        exclude:[/jquery/]
+    };
+
+    return gulp.src('./app/index.html')
+        .pipe(gulpInject(injectScripts, injectOptions))
+        .pipe(wiredep.stream(wiredepOptions))
+        .pipe(gulp.dest('./dist/'));
 }
 
-function htmlTemplate() {
-	return gulp.src('./app/**/!(index).html')
-		.pipe(gulp.dest('./dist/'));
+function htmlTemplate() { // index.html 以外的所有 html 文件
+    return gulp.src('./app/**/!(index).html')
+        .pipe(gulp.dest('./dist/'));
 }
 
 function serve() {
+    let config = {
+        browser: [],
+        server: {
+            baseDir: './'
+        },
+        startPath: '/',
+        notify: false
+    };
 
-	let config = {
-		browser: [],
-		server: {
-			baseDir: './'
-		},
-		startPath: '/',
-		notify: false
-	};
-
-	broswerSyncInstance.init(config);
+    broswerSyncInstance.init(config);
 }
