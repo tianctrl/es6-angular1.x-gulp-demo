@@ -24,7 +24,10 @@
   },
   "overrides": {
     "bootstrap": {
-      "main": "dist/css/bootstrap.min.css"
+      "main": [
+        "dist/css/bootstrap.min.css",
+        // "dist/js/bootstrap.js"
+      ]
     }
   }
 }

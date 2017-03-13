@@ -1,12 +1,18 @@
 import gulp from 'gulp';
-import path from 'path';
+// import path from 'path';
+
 import webpackStream from 'webpack-stream';
 import gulpInject from 'gulp-inject';
 import gulpHtmlmin from 'gulp-htmlmin';
-import named from 'vinyl-named';
+// import named from 'vinyl-named';
 import wiredep from 'wiredep';
+
 import broswerSync from 'browser-sync';
-import browserSyncSpa from 'browser-sync-spa';
+// import browserSyncSpa from 'browser-sync-spa';
+
+import gulpSass from 'gulp-sass';
+import gulpAutoprefixer from 'gulp-autoprefixer';
+import gulpSourcemaps from 'gulp-sourcemaps';
 
 import webpackConfig from './webpack.config';
 
@@ -25,7 +31,7 @@ gulp.task('script', compileScripts);
  * 使用wiredep 引入bower所管理的依赖
  * 此命令依赖于'script'命令
  */
-gulp.task('index', ['script'], createIndexFile);
+gulp.task('index', ['script', 'styles'], createIndexFile);
 
 /*
  * 此命令在这里只是把html文件复制到dist目录
@@ -34,9 +40,16 @@ gulp.task('index', ['script'], createIndexFile);
 gulp.task('htmlTemplate', htmlTemplate);
 
 /*
+ * 编译sass样式文件
+ */
+gulp.task('styles', compileStyles);
+
+/*
  * 建立httpserver为项目根目录, localhost可访问
  */
 gulp.task('serve', serve);
+
+gulp.task('watch', watch);
 
 /*
  * 开始项目
@@ -51,6 +64,7 @@ function compileScripts() {
 }
 
 function createIndexFile() {
+    let injectStyles = gulp.src('./dist/**/*.css', {read: false});
     let injectScripts = gulp.src('./dist/**/*.js', {read: false});
 
     let injectOptions = { // 使用相对路径
@@ -62,6 +76,7 @@ function createIndexFile() {
     };
 
     return gulp.src('./app/index.html')
+        .pipe(gulpInject(injectStyles, injectOptions))
         .pipe(gulpInject(injectScripts, injectOptions))
         .pipe(wiredep.stream(wiredepOptions))
         .pipe(gulp.dest('./dist/'));
@@ -83,4 +98,21 @@ function serve() {
     };
 
     broswerSyncInstance.init(config);
+}
+
+function compileStyles() {
+    let sassOptions = {
+        style: 'expanded',
+    };
+
+    return gulp.src('./app/**/*.scss')
+        .pipe(gulpSourcemaps.init())
+        .pipe(gulpSass(sassOptions).on('error', gulpSass.logError))
+        .pipe(gulpAutoprefixer())
+        .pipe(gulpSourcemaps.write('.'))
+        .pipe(gulp.dest('./dist/'));
+}
+
+function watch() {
+
 }

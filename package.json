@@ -15,10 +15,13 @@
     "browser-sync": "^2.18.8",
     "browser-sync-spa": "^1.0.3",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^3.0.0",
     "gulp-inject": "^4.2.0",
     "gulp-modify": "^0.1.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^3.2.0",
     "wiredep": "^4.0.0"
