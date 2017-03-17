@@ -16,7 +16,7 @@ import gulpSourcemaps from 'gulp-sourcemaps';
 
 import webpackConfig from './webpack.config';
 
-const broswerSyncInstance = broswerSync.create();
+const browserSyncInstance = broswerSync.create();
 
 /*
  * 编译所有js代码, 输入主模块, 使用webpackStream插件, babel-loader, 打包es6 输出到dist文件夹
@@ -84,6 +84,11 @@ function createIndexFile() {
 
 function htmlTemplate() { // index.html 以外的所有 html 文件
     return gulp.src('./app/**/!(index).html')
+        .pipe(gulpHtmlmin({
+            removeComments: true,
+            collapseWhitespace: true,
+            conservativeCollapse: true,
+        }))
         .pipe(gulp.dest('./dist/'));
 }
 
@@ -101,7 +106,7 @@ function serve() {
         notify: false
     };
 
-    broswerSyncInstance.init(config);
+    browserSyncInstance.init(config);
 }
 
 function compileStyles() {
