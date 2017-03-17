@@ -90,7 +90,22 @@ function htmlTemplate() { // index.html 以外的所有 html 文件
             collapseWhitespace: true,
             conservativeCollapse: true,
         }))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./dist/'))
+        .pipe(browserSyncInstance.stream());
+}
+
+function compileStyles() {
+    let sassOptions = {
+        style: 'expanded',
+    };
+
+    return gulp.src('./app/**/*.scss')
+        .pipe(gulpSourcemaps.init())
+        .pipe(gulpSass(sassOptions).on('error', gulpSass.logError))
+        .pipe(gulpAutoprefixer())
+        .pipe(gulpSourcemaps.write('.'))
+        .pipe(gulp.dest('./dist/'))
+        .pipe(browserSyncInstance.stream());
 }
 
 function serve() {
@@ -109,19 +124,6 @@ function serve() {
     };
 
     browserSyncInstance.init(config);
-}
-
-function compileStyles() {
-    let sassOptions = {
-        style: 'expanded',
-    };
-
-    return gulp.src('./app/**/*.scss')
-        .pipe(gulpSourcemaps.init())
-        .pipe(gulpSass(sassOptions).on('error', gulpSass.logError))
-        .pipe(gulpAutoprefixer())
-        .pipe(gulpSourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/'));
 }
 
 function watchFiles() {
