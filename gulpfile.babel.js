@@ -23,15 +23,15 @@ const browserSyncInstance = broswerSync.create();
  * webpackConfig 为 webpack配置文件
  * named 插件用于保持文件名, 这里可省略
  */
-gulp.task('script', compileScripts);
+gulp.task('scripts', compileScripts);
 
 /*
  * 给index.html文件插入所需要的css, js文件
  * 使用gulp-inject插件引入自定义的css, js
  * 使用wiredep 引入bower所管理的依赖
- * 此命令依赖于'script'命令
+ * 此命令依赖于'scripts'命令
  */
-gulp.task('index', ['script', 'styles'], createIndexFile);
+gulp.task('index', ['scripts', 'styles'], createIndexFile);
 
 /*
  * 此命令在这里只是把html文件复制到dist目录
@@ -47,14 +47,15 @@ gulp.task('styles', compileStyles);
 /*
  * 建立httpserver为项目根目录, localhost可访问
  */
-gulp.task('serve', serve);
-
-gulp.task('watch', watch);
+gulp.task('serve', ['index', 'htmlTemplate'], serve);
 
 /*
- * 开始项目
+ * 建立httpserver为项目根目录, localhost可访问, 并watch项目
  */
-gulp.task('start', ['index', 'htmlTemplate', 'serve']);
+gulp.task('serve-watch', ['watch'], serve);
+
+gulp.task('watch', ['index', 'htmlTemplate'], watchFiles);
+
 
 function compileScripts() {
     return gulp.src('./app/index_module.js')
@@ -99,6 +100,7 @@ function serve() {
 
     let config = {
         browser: [],
+        directory: false,
         server: {
             baseDir: ['./', './dist/']
         },
@@ -122,6 +124,18 @@ function compileStyles() {
         .pipe(gulp.dest('./dist/'));
 }
 
-function watch() {
+function watchFiles() {
+    gulp.watch(['app/index.html', 'bower.json'], ['index']);
 
+    gulp.watch(['app/**/*.scss'], function(event) {
+        if(event.type === 'changed') {
+            gulp.start('styles');
+        } else {
+            gulp.start('index');
+        }
+    });
+
+    gulp.watch(['app/**/*.html'], ['htmlTemplate']);
+
+    gulp.watch(['app/**/*.js'], ['scripts']);
 }
