@@ -8,7 +8,7 @@ import gulpHtmlmin from 'gulp-htmlmin';
 import wiredep from 'wiredep';
 
 import broswerSync from 'browser-sync';
-// import browserSyncSpa from 'browser-sync-spa';
+import browserSyncSpa from 'browser-sync-spa';
 
 import gulpSass from 'gulp-sass';
 import gulpAutoprefixer from 'gulp-autoprefixer';
@@ -88,10 +88,14 @@ function htmlTemplate() { // index.html 以外的所有 html 文件
 }
 
 function serve() {
+    browserSyncInstance.use(browserSyncSpa({
+        selector: '[ng-app]',
+      }));
+
     let config = {
         browser: [],
         server: {
-            baseDir: './'
+            baseDir: ['./', './dist/']
         },
         startPath: '/',
         notify: false
