@@ -8,6 +8,9 @@ export class NavController {
         console.log('onInit event');
     }
 
+    $onDestroy() {
+        console.log('onDestroy event');
+    }
 }
 
 export const navComponent = {
